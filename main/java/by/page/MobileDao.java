@@ -12,20 +12,11 @@ public class MobileDao {
     private static Map<Integer, Mobile> mobiles = new HashMap<>();
 
 
-    public static Map<Integer, Mobile> getMobiles() {
-        return mobiles;
-    }
-
-    public Mobile getMobileId(Integer id) {
+    public static Mobile getMobileId(Integer id) {
         return mobiles.get(id);
     }
 
     public MobileDao() {
-    }
-
-    public static void addMobile(Mobile mobile) {
-        mobile.setId(mobiles.size() + 1);
-        mobiles.put(mobile.getId(), mobile);
     }
 
     public static void updateMobile(Mobile mobile) {
@@ -34,7 +25,36 @@ public class MobileDao {
     }
 
     public static void deleteMobile(Integer id) {
+
         mobiles.remove(id);
+    }
+
+    public static void addMobile(Mobile mobile) {
+        mobile.setId(mobiles.size() + 1);
+        mobiles.put(mobile.getId(), mobile);
+    }
+
+    public static void UpdateMobileDB(Connection connection) throws SQLException {
+        PreparedStatement preparedStatement = null;
+        preparedStatement= connection.prepareStatement("truncate table mobile");
+        preparedStatement.execute();
+        preparedStatement = null;
+        for (int i = 1; i <= mobiles.size(); i++) {
+            try {
+                preparedStatement= connection.prepareStatement("INSERT INTO mobile values(?,?,?)");
+                preparedStatement.setInt(1, MobileDao.getMobiles().get(i).getId());
+                preparedStatement.setString(2,MobileDao.getMobiles().get(i).getModel());
+                preparedStatement.setString(3,MobileDao.getMobiles().get(i).getCost());
+                preparedStatement.execute();
+            } catch (SQLException e) {
+                System.out.println("MOBILEDAO ERROR!!!!!!!!!!!!!!11");
+            }
+
+        }
+    }
+
+    public static Map<Integer, Mobile> getMobiles() {
+        return mobiles;
     }
 
     public static Map<Integer, Mobile> getMobilesDB(Connection connection) throws SQLException {

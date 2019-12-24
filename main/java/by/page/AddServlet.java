@@ -1,6 +1,9 @@
 package by.page;
 
+import by.db.ConnectionToDB;
+
 import java.io.IOException;
+import java.sql.SQLException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -37,6 +40,11 @@ public class AddServlet extends HttpServlet {
                 newMobile.setCost(cost);
             }
             MobileDao.addMobile(newMobile);
+            try {
+                MobileDao.UpdateMobileDB(ConnectionToDB.getConnection());
+            } catch (SQLException e) {
+                System.out.println("connection into add SERVLET!!!!!!!!!!!!!!");
+            }
         }
 
         req.setAttribute("mobileList", MobileDao.getMobiles());
