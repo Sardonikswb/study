@@ -24,29 +24,21 @@ public class HomeServlet extends HttpServlet {
 
     @Override
     public void init() throws ServletException {
-        super.init();
-        try {
-            MobileDao.getMobilesDB(ConnectionToDB.getConnection());
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        MobileDao.getMobilesDB(ConnectionToDB.getConnection());
     }
-
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        try {
-            MobileDao.UpdateMobileDB(ConnectionToDB.getConnection());
-        } catch (SQLException e) {
-        }
-        req.setAttribute("mobilesList", MobileDao.getMobiles());
+        MobileDao.getMobilesDB(ConnectionToDB.getConnection());
+
+        req.setAttribute("mobilesList", MobileDao.getMobilesDB(ConnectionToDB.getConnection()));
         req.getRequestDispatcher("/home.jsp").forward(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("mobilesList", MobileDao.getMobiles());
+        req.setAttribute("mobilesList", MobileDao.getMobilesDB(ConnectionToDB.getConnection()));
         req.getRequestDispatcher("/home.jsp").forward(req, resp);
     }
 }

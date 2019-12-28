@@ -33,10 +33,10 @@
         <h2>Edit mobile</h2>
     </div>
     <form role="form" class="form-horizontal" method="post">
-        <input type="hidden" name="id" value="${editMobile.getId()}"/>
+
         <div class="col-md-4">
-            <input type="text" name="model" value="${editMobile.getModel()}"><br>
-            <input type="text" name="cost" value="${editMobile.getCost()}"><br>
+            <input type="text" name="modelS" placeholder="<%=request.getParameter("model")%>"><br>
+            <input type="text" name="costS" placeholder="<%=request.getParameter("cost")%>"><br>
             <button type="submit" class="btn btn-warning">confirm edit</button>
 
         </div>

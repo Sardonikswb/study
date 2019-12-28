@@ -61,8 +61,8 @@
                     <td>${mobile.getId()}</td>
                     <td>${mobile.getModel()}</td>
                     <td>${mobile.getCost()}</td>
-                    <td><a href="${pageContext.request.contextPath}/edit?id=${mobilesList.indexOf(mobile)}">Edit</a></td>
-                    <td><a href="${pageContext.request.contextPath}/delete?id=${mobilesList.indexOf(mobile)}">Delete</a></td>
+                    <td><a href="${pageContext.request.contextPath}/edit?id=${mobile.getId()}&model=${mobile.getModel()}&cost=${mobile.getCost()}">Edit</a></td>
+                    <td><a href="${pageContext.request.contextPath}/delete?id=${mobile.getId()}&model=${mobile.getModel()}">Delete</a></td>
                 </tr>
             </c:forEach>
         </table>

@@ -33,8 +33,7 @@
         <h2>Add mobile</h2>
     </div>
     <form role="form" class="form-horizontal" method="post">
-        <!--input type="hidden" name="id" value="${mobile.id}"/-->
-        <!--input type="hidden" name="action" value="add"/-->
+
         <div class="col-md-4">
             <input type="text" class="form-control" name="model" placeholder="Enter model"><br>
             <input type="text" class="form-control" name="cost" placeholder="Enter cost"><br>

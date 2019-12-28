@@ -34,8 +34,8 @@
     </div>
     <form role="form" class="form-horizontal" method="post">
         <div>
-            <input type="hidden" name="id" value="${deleteMobile.getId()}"/>
-            <input type="text" name="model" value="${deleteMobile.getModel()}" disabled="disabled"/>
+
+            <p> <%=request.getParameter("model")%></p>
             <button type="submit" class="btn btn-danger">delete mobile</button>
         </div>
     </form>

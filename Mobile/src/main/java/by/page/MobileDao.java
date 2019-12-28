@@ -20,61 +20,68 @@ public class MobileDao {
         return mobiles;
     }
 
-    public static ArrayList<Mobile> getMobilesDB(Connection connection) throws SQLException {
-        String sql = "Select id, model, cost from mobile";
+    public static ArrayList<Mobile> getMobilesDB(Connection connection) {
+        mobiles.clear();
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
         try {
-            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement = connection.prepareStatement("Select id, model, cost from mobile");
             preparedStatement.execute();
             resultSet = preparedStatement.getResultSet();
+            while (resultSet.next()) {
+                Mobile mobile = new Mobile(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3));
+                mobiles.add(mobile);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
-        }
-        while (resultSet.next()) {
-            Mobile mobile = new Mobile(resultSet.getInt(1), resultSet.getString(2), resultSet.getString(3));
-            mobiles.add(mobile);
         }
         return mobiles;
     }
 
-    public static Mobile getMobileId(Integer id) {
-        return mobiles.get(id);
-    }
-
-    public static void updateMobile(Mobile mobile) {
-        mobiles.get(mobile.getId()).setModel(mobile.getModel());
-        mobiles.get(mobile.getId()).setCost(mobile.getCost());
-    }
-
-    public static void deleteMobile(Integer id) {
-        mobiles.remove(getMobileId(id));
-    }
-
-    public static void addMobile(Mobile mobile) {
-        if (mobiles.size() != 0) {
-            mobile.setId(mobiles.get(mobiles.size() - 1).getId() + 1);
-            mobiles.add(mobile);
-        } else {
-            mobile.setId(1);
-            mobiles.add(mobile);
-        }
-    }
-
-    public static void UpdateMobileDB(Connection connection) throws SQLException {
+     public static int getIdBD(Connection connection, String model, String cost) {
+        int id = 0;
         PreparedStatement preparedStatement = null;
-        preparedStatement = connection.prepareStatement("truncate table mobile");
-        preparedStatement.execute();
-        preparedStatement = null;
-        for (int i = 0; i < mobiles.size(); i++) {
-            try {
-                preparedStatement = connection.prepareStatement("INSERT INTO mobile values(?,?,?)");
-                preparedStatement.setInt(1, MobileDao.getMobileId(i).getId());
-                preparedStatement.setString(2, MobileDao.getMobileId(i).getModel());
-                preparedStatement.setString(3, MobileDao.getMobileId(i).getCost());
-                preparedStatement.execute();
-            } catch (SQLException e) {
-            }
+        ResultSet resultSet = null;
+        try {
+            preparedStatement = connection.prepareStatement("select id from mobile where model='" + model + "' and cost='" + cost + "'");
+            preparedStatement.execute();
+            resultSet = preparedStatement.getResultSet();
+            id = resultSet.getInt("id");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return id;
+    }
+
+    public static void addMobileDB(Connection connection, String model, String cost) {
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connection.prepareStatement("INSERT INTO mobile (model,cost) VALUES (?,?)");
+            preparedStatement.setString(1, model);
+            preparedStatement.setString(2, cost);
+            preparedStatement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
+
+    public static void deleteMobileDB(Connection connection, int id) {
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connection.prepareStatement("DELETE FROM mobile WHERE id =" + id);
+            preparedStatement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+   public static void editMobileDB(Connection connection, int id, String model, String cost){
+        PreparedStatement preparedStatement = null;
+       try {
+           preparedStatement = connection.prepareStatement("UPDATE mobile SET model='"+model+"', cost='"+cost+"' WHERE id="+id);
+       preparedStatement.execute();
+       } catch (SQLException e) {
+           e.printStackTrace();
+       }
+   }
 }

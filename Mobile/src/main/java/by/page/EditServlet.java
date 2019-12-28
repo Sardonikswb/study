@@ -19,26 +19,22 @@ public class EditServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Integer id = Integer.parseInt(req.getParameter("id"));
-        Mobile editMobile = MobileDao.getMobileId(id);
-        System.out.println(editMobile.toString());
-        req.setAttribute("editMobile", editMobile);
+        int id = Integer.parseInt(req.getParameter("id"));
+        String model = req.getParameter("model");
+        String cost = req.getParameter("cost");
+
         req.getRequestDispatcher("/edit.jsp").forward(req, resp);
-
-
-
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Integer id = Integer.parseInt(req.getParameter("id"));
+        int id = Integer.parseInt(req.getParameter("id"));
+        String model = req.getParameter("modelS");
+        String cost = req.getParameter("costS");
 
-        Mobile mobile = new Mobile(id, req.getParameter("model"), req.getParameter("cost"));
-        MobileDao.updateMobile(mobile);
+        MobileDao.editMobileDB(ConnectionToDB.getConnection(), id, model, cost);
 
-
-
-        req.setAttribute("mobileList", MobileDao.getMobiles());
+        req.setAttribute("mobileList", MobileDao.getMobilesDB(ConnectionToDB.getConnection()));
         resp.sendRedirect(req.getContextPath() + "/home");
     }
 }

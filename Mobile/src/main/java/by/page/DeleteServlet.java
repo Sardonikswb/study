@@ -12,7 +12,7 @@ import java.sql.SQLException;
 
 @WebServlet("/delete")
 public class DeleteServlet extends HttpServlet {
-Integer id;
+
     private static final long serialVersionUID = 1L;
 
     static {
@@ -21,23 +21,18 @@ Integer id;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-            Integer id = Integer.parseInt(req.getParameter("id"));
-
-        Mobile deleteMobile = MobileDao.getMobileId(id);
-        System.out.println(deleteMobile.toString());
-        req.setAttribute("deleteMobile", deleteMobile);
+         Integer id = Integer.parseInt(req.getParameter("id"));
 
         req.getRequestDispatcher("/delete.jsp").forward(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Integer id = Integer.parseInt(req.getParameter("id"));
+        int id = Integer.parseInt(req.getParameter("id"));
 
-            MobileDao.deleteMobile(id);
+        MobileDao.deleteMobileDB(ConnectionToDB.getConnection(),id);
 
-
-        req.setAttribute("mobileList", MobileDao.getMobiles());
+        req.setAttribute("mobileList", MobileDao.getMobilesDB(ConnectionToDB.getConnection()));
         resp.sendRedirect(req.getContextPath() + "/home");
     }
 }

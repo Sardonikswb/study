@@ -27,30 +27,15 @@ public class AddServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//        String action = req.getParameter("action");
-//        if (action != null) {
-
-            Mobile newMobile = new Mobile();
             String model = null;
             String cost = null;
 
             model = req.getParameter("model");
-            if (model != null) {
-                newMobile.setModel(model);
-            }
-
             cost = req.getParameter("cost");
-            if (cost != null) {
-                newMobile.setCost(cost);
-            }
-            MobileDao.addMobile(newMobile);
+            MobileDao.addMobileDB(ConnectionToDB.getConnection(), model, cost);
 
-//        }
-
-        req.setAttribute("mobileList", MobileDao.getMobiles());
+        req.setAttribute("mobileList", MobileDao.getMobilesDB(ConnectionToDB.getConnection()));
         resp.sendRedirect(req.getContextPath() + "/home");
-
-
     }
 }
 

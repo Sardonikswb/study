@@ -1,6 +1,5 @@
 by\db\ConnectionToDB.class
 by\page\HomeServlet.class
-by\page\db.class
 by\page\DeleteServlet.class
 by\page\EditServlet.class
 by\page\MobileDao.class

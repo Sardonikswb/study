@@ -1,28 +1,31 @@
 package by.page;
 
 
+import by.db.ConnectionToDB;
+
 import java.util.Objects;
 
 public class Mobile {
     private String model;
     private String cost;
-    private Integer id;
+    private int id;
 
     public Mobile() {
     }
 
-    public Mobile(Integer id, String model, String cost) {
+    public Mobile(int id, String model, String cost) {
+        this.model = model;
+        this.cost = cost;
         this.id = id;
+    }
+
+    public Mobile(String model, String cost) {
         this.model = model;
         this.cost = cost;
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public String getModel() {
@@ -46,7 +49,6 @@ public class Mobile {
         return "Mobile{" +
                 "model='" + model + '\'' +
                 ", cost='" + cost + '\'' +
-                ", id=" + id +
                 '}';
     }
 
@@ -56,12 +58,11 @@ public class Mobile {
         if (o == null || getClass() != o.getClass()) return false;
         Mobile mobile = (Mobile) o;
         return model.equals(mobile.model) &&
-                cost.equals(mobile.cost) &&
-                id.equals(mobile.id);
+                cost.equals(mobile.cost);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(model, cost, id);
+        return Objects.hash(model, cost);
     }
 }
