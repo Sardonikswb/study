@@ -1,14 +1,26 @@
 package by.page;
 
 
-import by.db.ConnectionToDB;
-
+import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Mobile {
-    private String model;
-    private String cost;
+@Entity
+@Table(name = "mobile")
+public class Mobile implements Serializable {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "gen_id")
+    @SequenceGenerator(name = "gen_id", sequenceName = "mobile_id_seq", allocationSize = 1)
+    @Column(name = "id", updatable = false, nullable = false)
     private int id;
+
+    @Column(name = "model")
+    private String model;
+
+    @Column(name = "cost")
+    private String cost;
+
 
     public Mobile() {
     }
@@ -57,12 +69,15 @@ public class Mobile {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Mobile mobile = (Mobile) o;
-        return model.equals(mobile.model) &&
-                cost.equals(mobile.cost);
+        return id == mobile.id &&
+                Objects.equals(model, mobile.model) &&
+                Objects.equals(cost, mobile.cost);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(model, cost);
+        return Objects.hash(id, model, cost);
     }
 }
+
+

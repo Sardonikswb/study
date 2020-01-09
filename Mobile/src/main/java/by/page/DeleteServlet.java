@@ -1,6 +1,5 @@
 package by.page;
 
-import by.db.ConnectionToDB;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,13 +14,9 @@ public class DeleteServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
 
-    static {
-        ConnectionToDB.getConnection();
-    }
-
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-         Integer id = Integer.parseInt(req.getParameter("id"));
+        Integer id = Integer.parseInt(req.getParameter("id"));
 
         req.getRequestDispatcher("/delete.jsp").forward(req, resp);
     }
@@ -29,10 +24,11 @@ public class DeleteServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int id = Integer.parseInt(req.getParameter("id"));
+        Service service = new Service();
 
-        MobileDao.deleteMobileDB(ConnectionToDB.getConnection(),id);
+        service.deleteMobile(new MobileDao().findById(id));
 
-        req.setAttribute("mobileList", MobileDao.getMobilesDB(ConnectionToDB.getConnection()));
+        req.setAttribute("mobileList", service.findAll());
         resp.sendRedirect(req.getContextPath() + "/home");
     }
 }

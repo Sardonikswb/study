@@ -1,6 +1,6 @@
 package by.page;
 
-import by.db.ConnectionToDB;
+
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -16,9 +16,6 @@ public class AddServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
 
-    static {
-        ConnectionToDB.getConnection();
-    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -32,9 +29,10 @@ public class AddServlet extends HttpServlet {
 
             model = req.getParameter("model");
             cost = req.getParameter("cost");
-            MobileDao.addMobileDB(ConnectionToDB.getConnection(), model, cost);
+            Service service = new Service();
+            service.addMobile(new Mobile(model,cost));
 
-        req.setAttribute("mobileList", MobileDao.getMobilesDB(ConnectionToDB.getConnection()));
+        req.setAttribute("mobileList", service.findAll());
         resp.sendRedirect(req.getContextPath() + "/home");
     }
 }

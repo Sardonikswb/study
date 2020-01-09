@@ -1,6 +1,5 @@
 package by.page;
 
-import by.db.ConnectionToDB;
 
 import java.io.IOException;
 import java.sql.PreparedStatement;
@@ -18,27 +17,25 @@ public class HomeServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
 
-    static {
-        ConnectionToDB.getConnection();
-    }
-
     @Override
     public void init() throws ServletException {
-        MobileDao.getMobilesDB(ConnectionToDB.getConnection());
+        Service service = new Service();
+        service.findAll();
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        Service service = new Service();
+        service.findAll();
 
-        MobileDao.getMobilesDB(ConnectionToDB.getConnection());
-
-        req.setAttribute("mobilesList", MobileDao.getMobilesDB(ConnectionToDB.getConnection()));
+        req.setAttribute("mobilesList", service.findAll());
         req.getRequestDispatcher("/home.jsp").forward(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setAttribute("mobilesList", MobileDao.getMobilesDB(ConnectionToDB.getConnection()));
+        Service service = new Service();
+        req.setAttribute("mobilesList", service.findAll());
         req.getRequestDispatcher("/home.jsp").forward(req, resp);
     }
 }
