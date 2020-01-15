@@ -1,8 +1,0 @@
-by\page\HomeServlet.class
-by\page\DeleteServlet.class
-by\page\EditServlet.class
-by\db\HibernateSessionFactoryUtil.class
-by\page\MobileDao.class
-by\page\Service.class
-by\page\AddServlet.class
-by\page\Mobile.class
