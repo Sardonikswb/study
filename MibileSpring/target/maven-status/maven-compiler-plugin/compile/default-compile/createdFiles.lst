@@ -1,0 +1,10 @@
+by\khodus\servlets\DeleteServlet.class
+by\khodus\services\Service.class
+by\khodus\servlets\IndexServlet.class
+by\khodus\dao\MobileDao.class
+by\khodus\entity\Mobile.class
+by\khodus\servlets\AddServlet.class
+by\khodus\filter\Filter1.class
+by\khodus\servlets\HomeServlet.class
+by\khodus\servlets\EditServlet.class
+by\khodus\db\HibernateSessionFactoryUtil.class
