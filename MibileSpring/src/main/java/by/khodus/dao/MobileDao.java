@@ -1,42 +1,35 @@
 package by.khodus.dao;
 
-import by.khodus.db.HibernateSessionFactoryUtil;
 import by.khodus.entity.Mobile;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
-public class MobileDao {
+@Repository
+public class MobileDao implements MobileDaoSpring {
 
-
+    @Autowired
+    private MobileRepository repository;
 
     public void save(Mobile mobile) {
-        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
-        Transaction tx1 = session.beginTransaction();
-        session.save(mobile);
-        tx1.commit();
-        session.close();
+        repository.saveAndFlush(mobile);
     }
 
     public void update(Mobile mobile) {
-        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
-        Transaction tx1 = session.beginTransaction();
-        session.update(mobile);
-        tx1.commit();
-        session.close();
+        repository.saveAndFlush(mobile);
     }
 
-    public void delete(Mobile mobile) {
-        Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
-        Transaction tx1 = session.beginTransaction();
-        session.delete(mobile);
-        tx1.commit();
-        session.close();
+    public void delete(int id) {
+        repository.deleteById(id);
     }
 
-    public Mobile findById(int id) {
-        return HibernateSessionFactoryUtil.getSessionFactory().openSession().get(Mobile.class, id);
+    public Optional<Mobile> findById(int id) {
+        return repository.findById(id);
     }
 
     /*public Mobile findByMobile(Mobile mobile) {
@@ -44,7 +37,7 @@ public class MobileDao {
     }*/
 
     public List<Mobile> findAll() {
-        List<Mobile> mobiles = (List<Mobile>) HibernateSessionFactoryUtil.getSessionFactory().openSession().createQuery("From Mobile order by id").list();
+        List<Mobile> mobiles = (List<Mobile>) repository.findAll(Sort.by(Sort.Direction.ASC, "id"));
         return mobiles;
     }
 

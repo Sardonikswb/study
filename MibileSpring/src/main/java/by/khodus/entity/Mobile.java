@@ -1,6 +1,9 @@
 package by.khodus.entity;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;

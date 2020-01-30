@@ -16,7 +16,8 @@ public class IndexController {
 
     @PostMapping(value = {"/", "/index"})
     public String indexHome(@RequestParam String pass, Model model) {
-
-        return "redirect:home";
+        if (pass.equals("4444")) {
+            return "redirect:home";
+        } else return "index";
     }
 }

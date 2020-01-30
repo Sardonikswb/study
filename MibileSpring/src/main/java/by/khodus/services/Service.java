@@ -1,19 +1,22 @@
 package by.khodus.services;
 
 import by.khodus.dao.MobileDao;
+import by.khodus.dao.MobileDaoSpring;
 import by.khodus.entity.Mobile;
 import org.apache.log4j.Logger;
 import org.apache.log4j.xml.DOMConfigurator;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
-public class Service {
+@org.springframework.stereotype.Service
+public class Service implements SpringService {
 
-    private MobileDao mobileDao = new MobileDao();
+    @Autowired
+    MobileDaoSpring mobileDao;
 
     public Service() {
     }
-
 
     public void addMobile(Mobile mobile) {
         Logger logger = Logger.getLogger(MobileDao.class);
@@ -24,12 +27,12 @@ public class Service {
 
     }
 
-    public void deleteMobile(Mobile mobile) {
+    public void deleteMobile(int id) {
         Logger logger = Logger.getLogger(MobileDao.class);
         DOMConfigurator.configure("src/main/resources/log4j.xml");
         logger.warn("try to mobile delete");
 
-        mobileDao.delete(mobile);
+        mobileDao.delete(id);
         logger.warn("mobile delete");
     }
 
